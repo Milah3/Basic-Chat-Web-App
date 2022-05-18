@@ -5,7 +5,7 @@ Designed using only skeleton.css and vanilla css.
 Will use websockets for realtime back and forth communication
 
 # To dos:
-- [ ]  Set up server to get chat messages
+- [ ]  Set up server to receive chat messages when client has submitted them.
     - [ ]  message
     - [ ]  metadata (person name, url, img)
     - [ ]  time

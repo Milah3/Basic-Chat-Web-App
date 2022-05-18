@@ -1,9 +1,10 @@
 from flask import Flask, render_template
+import simple_websocket
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', websocket=True)
 def home():
     return render_template('./index.html')
 
