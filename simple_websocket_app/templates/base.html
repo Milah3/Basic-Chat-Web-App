@@ -19,4 +19,17 @@
     <section class="content">
         {% block content %}{% endblock %}
     </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='run.js')}}"></script>
+    <script>
+        document.onload(connect())
+
+        function connect() {
+            console.log('running connect function!')
+            const socket = new WebSocket('ws://localhost:5000/echo');
+            socket.send('This is my message. It works')
+        }
+    </script>
 </body>
+
+</html>
