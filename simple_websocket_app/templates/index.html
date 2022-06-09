@@ -12,9 +12,9 @@
 </div>
 
 
-<div class="container chatbox u-full-width">
+<div class="container chatbox u-full-width" id="chatbox">
     <!-- Populate chat with messages -->
-    <div class="container userbox row">
+    <div class="container userbox row" id="usrbox">
         <div class="usrname two"><strong>Test User</strong></div>
         <div class="usermsg ten"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur, aperiam.
         </div>
@@ -81,10 +81,10 @@
 
 
     <hr />
-    <form class="container u-full-width" action="/run" method="POST">
+    <form class="container u-full-width">
         <input type="text" class="ten columns" id="msg" placeholder="Enter message here...">
         <button class="two columns" id="send">Send</button>
-    </form>
+        </form>
 
 
     {% endblock %}

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}Basic Chat Web App{% endblock %} - Flaskr</title>
+    <title>{% block title %}Basic Chat Web App!!!{% endblock %} - Flaskr</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
@@ -20,15 +20,62 @@
         {% block content %}{% endblock %}
     </section>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="{{url_for('static', filename='run.js')}}"></script>
-    <script>
-        document.onload(connect())
+    <!-- <script src="{{url_for('static', filename='run.js')}}"></script> -->
+    <!-- <script type="text/javascript" src="//cdn.socket.io/4.4.1/socket.io.min.js"></script> -->
 
-        function connect() {
-            console.log('running connect function!')
-            const socket = new WebSocket('ws://localhost:5000/echo');
-            socket.send('This is my message. It works')
-        }
+    <script>
+        
+        $(document).ready(() => {
+            try {
+                var socket = new WebSocket('ws://localhost:5000/echo')
+            } catch (error) {
+                alert('Error connecting websocket. Please reload the url. Else, contact the developer.')
+            }
+
+            socket.addEventListener('open', (event) => {
+                alert('Websocket connection opened!')
+                
+            })
+    
+            socket.addEventListener('message', (event) => {
+                
+                // console.log('message received!', event.data)
+
+                const usrbox = $('#usrbox').clone(true)
+
+                const usrname = $('.usrname').clone(true)
+                const usermsg = $('.usermsg').clone(true);
+
+                usrbox.html = usrname.html = usermsg.html = ''
+                
+                usrname.html = 'Jack Why'
+                usermsg.html = 'Whhy jack whyy?'
+
+                usrname.appendTo(usrbox);
+                usermsg.appendTo(usrbox);
+                usrbox.appendTo('.chatbox')
+                // const message = document.getElementById('msg');
+                // console.log(message.value);
+                
+            })
+    
+            socket.addEventListener('close', (event) => {
+                
+    
+            })
+
+            $('#send').bind('click', function(e) {
+                e.preventDefault();
+                const message = document.getElementById('msg');
+                
+                socket.send(message.value); 
+                message.value = '';
+            });
+        
+            })
+
+           
+
     </script>
 </body>
 
