@@ -13,13 +13,19 @@ app = Flask(__name__)
 # @cross_origin()
 def echo():
     ws = simple_websocket.Server(request.environ)
+    # user = data.username
     try:
         while True:
             msg = ws.receive()
+            if 'new_user' in msg:
+                username = msg.replace('new_user ', '')
+                print(username, 'has joined the chat')
+                msg = 'new_user'
             # data = [msg, username]
-            print(msg)
-            ws.send(msg)
-            pass
+            else:
+                print(msg)
+
+            ws.send({'msg': msg, 'user': username})
     except simple_websocket.ConnectionClosed:
         print('socket connection closed!')
         # pass

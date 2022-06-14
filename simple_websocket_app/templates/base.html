@@ -27,33 +27,55 @@
         
         $(document).ready(() => {
             try {
+                var username = prompt('Welcome to the groupchat. What should we call you?')
+                
                 var socket = new WebSocket('ws://localhost:5000/echo')
             } catch (error) {
                 alert('Error connecting websocket. Please reload the url. Else, contact the developer.')
             }
 
             socket.addEventListener('open', (event) => {
-                alert('Websocket connection opened!')
-                
+                console.log('Websocket connection opened!')
+                socket.send(`new_user ${username}`)
+
             })
     
             socket.addEventListener('message', (event) => {
                 
-                // console.log('message received!', event.data)
+                if (event.data.includes('new_user')) {
+                    new_user = event.data.replace(`{'msg': 'new_user', 'user': '`, '').replace(`'}`, '')
 
-                const usrbox = $('#usrbox').clone(true)
+                    // MODAL TO TELL ABOUT NEW USER!
+                    $('#modal').fadeIn('slow')
+                    modal = document.createElement('button')
+                    modal.innerText = `${new_user} has entered the chat`
+                    modal.id = 'modal'
+                    document.body.append(modal)
+                    
+                    setTimeout(() => {
+                        $('#modal').fadeOut('slow')
+                    }, 5000)
+                }
 
-                const usrname = $('.usrname').clone(true)
-                const usermsg = $('.usermsg').clone(true);
+                const usrbox = document.createElement('div')
+                usrbox.classList.add('container', 'userbox', 'row')
+                usrbox.id = 'usrbox'
 
-                usrbox.html = usrname.html = usermsg.html = ''
+                const usrname = document.createElement('div')
+                usrname.classList.add('usrname', 'two')
+                usrname.innerHTML = `<strong>${event.data['user']}</strong>`
                 
-                usrname.html = 'Jack Why'
-                usermsg.html = 'Whhy jack whyy?'
+                const usermsg = document.createElement('div')
+                usermsg.classList.add('usermsg', 'ten')
+                usermsg.innerText = event.data['msg']
 
-                usrname.appendTo(usrbox);
-                usermsg.appendTo(usrbox);
-                usrbox.appendTo('.chatbox')
+                
+                
+                usrbox.append(usrname, usermsg)
+
+                const chatbox = document.getElementById('chatbox')
+                chatbox.append(usrbox)
+
                 // const message = document.getElementById('msg');
                 // console.log(message.value);
                 
@@ -73,8 +95,6 @@
             });
         
             })
-
-           
 
     </script>
 </body>
